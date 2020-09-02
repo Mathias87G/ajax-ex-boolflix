@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js" integrity="sha512-zT3zHcFYbQwjHdKjCu6OMmETx8fJA9S7E6W7kBeFxultf75OPTYUJigEKX58qgyQMi1m1EgenfjMXlRZG8BXaw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment-with-locales.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Boolflix</title>
+  </head>
+  <body>
+    <input id="title"type="text" placeholder="Inserisci il titolo di un film">
+    <button id="title-search" type="button" name="button">Ricerca</button>
+    <div class="film-ctr"></div>
+    <!-- Handlebars -->
+    <script id="film-template" type="text/x-handlebars-template">
+      <div class="entry">
+        <h4>Titolo: </h4><span>{{title}}</span>
+        <h4>Titolo originale: </h4><span>{{originalTitle}}</span>
+        <h4>Lingua: </h4><span>{{language}}</span>
+        <h4>Voto: </h4><span>{{vote}}</span>
+    </script>
+
+    <script src="js/script.js" charset="utf-8"></script>
+  </body>
+</html>
