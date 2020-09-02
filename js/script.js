@@ -8,43 +8,64 @@
 // Voto
 
 $(document).ready(function(){
+  // Funzione click tasto ricerca
   $('#title-search').click(function(){
     var titolo = $('#title').val();
-    console.log(titolo);
-    $.ajax(
-      {
-        url: 'https://api.themoviedb.org/3/search/movie',
-        method: 'GET',
-        data: {
-          api_key: '72dc32a32f51c244d20fcafee0b12798',
-          query: titolo,
-          language: 'it-IT'
-        },
-        success: function(risposta){
-          var results = risposta.results;
-
-          var source = $('#film-template').html();
-          var template = Handlebars.compile(source);
-          for (var i = 0; i < results.length; i++) {
-            var context = {
-              title: results[i].title,
-              originalTitle: results[i].original_title,
-              language: results[i].original_language,
-              vote: results[i].vote_average
-            };
-            var html = template(context);
-
-            $('.film-ctr').append(html);
-
-          }
-
-
-        },
-        error: function(){
-          alert('Errore');
-        }
-      }
-    )
+    $('.film-ctr').empty();
+    ricerca(titolo);
+    $('#title').val('');
   });
-
+  // Richiamo funzione tastiera
+  $('#title').keydown(keyboard);
 });
+
+// Funzione con ajax e Handlebars per la ricerca di film e la compilazione dell'HTML
+function ricerca(film){
+  $.ajax(
+    {
+      url: 'https://api.themoviedb.org/3/search/movie',
+      method: 'GET',
+      data: {
+        api_key: '72dc32a32f51c244d20fcafee0b12798',
+        query: film,
+        language: 'it-IT'
+      },
+      success: function(risposta){
+        var results = risposta.results;
+        // Handlebars
+        var source = $('#film-template').html();
+        var template = Handlebars.compile(source);
+        // Messaggio in caso di zero risultati
+        if (risposta.total_results == 0) {
+            $('.film-ctr').html('<h4>' + 'Nessun Risultato trovato' + '</h4>');
+            return;
+        }
+        // ciclo for che stampa in base al numero dei risultati
+        for (var i = 0; i < results.length; i++) {
+          var context = {
+            title: results[i].title,
+            originalTitle: results[i].original_title,
+            language: results[i].original_language,
+            vote: results[i].vote_average
+          };
+          var html = template(context);
+          $('.film-ctr').append(html);
+        }
+      },
+      // errore
+      error: function(){
+        alert('Errore');
+      }
+    }
+  )
+}
+
+// Funzione per tasto Invio sulla ricerca
+function keyboard() {
+  var titolo = $('#title').val();
+  if (event.which == 13 || event.keyCode == 13) {
+    $('.film-ctr').empty();
+    ricerca(titolo);
+    $('#title').val('');
+  }
+}
