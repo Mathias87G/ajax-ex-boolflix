@@ -18,10 +18,11 @@
     <!-- Handlebars -->
     <script id="film-template" type="text/x-handlebars-template">
       <div class="film">
-        <h4>Titolo: {{title}}</h4>
-        <h4>Titolo originale: {{originalTitle}}</h4>
-        <h4>Lingua: {{language}}</h4>
-        <h4>Voto: {{vote}}</h4>
+        <h4>Titolo: {{title}} {{name}}</h4>
+        <h4>Titolo originale: {{originalTitle}} {{originalName}}</h4>
+        <h4>Lingua: {{{language}}}</h4>
+        <h4>Voto: {{{vote}}}</h4>
+        <h4>{{type}}</h4>
       </div>
     </script>
 
