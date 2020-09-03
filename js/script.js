@@ -11,6 +11,10 @@ $(document).ready(function(){
   $('#title-search').click(function(){
     ricercaFilm();
     ricercaSerie();
+    if ($('.film-ctr').is(':empty')){
+      $('.film-ctr').html('<h4>' + 'Nessun Risultato trovato' + '</h4>');
+      return;
+    }
     reset();
   });
   // Richiamo funzione tastiera
@@ -31,7 +35,7 @@ function ricercaFilm(){
         language: 'it-IT'
       },
       success: function(risposta){
-        printFilm(risposta);
+        print('Film', risposta);
       },
       // errore
       error: function(){
@@ -55,11 +59,7 @@ function ricercaSerie(){
         language: 'it-IT'
       },
       success: function(risposta){
-        printSerie(risposta);
-        if (risposta.total_results == 0) {
-            $('.film-ctr').html('<h4>' + 'Nessun Risultato trovato' + '</h4>');
-            return;
-        }
+        print('Serie Tv', risposta);
       },
       // errore
       error: function(){
@@ -69,40 +69,26 @@ function ricercaSerie(){
   )
 }
 
-// Funzione per prendere i dati
-function printFilm(data){
+// funzione print per compilazione html
+function print(type, data){
   var results = data.results;
   // Handlebars
   var source = $('#film-template').html();
   var template = Handlebars.compile(source);
-  // ciclo for che stampa in base al numero dei risultati
   for (var i = 0; i < results.length; i++) {
+    if (type == 'Film') {
+      titolo = results[i].title;
+      originalTitle = results[i].original_title;
+    } else if (type == 'Serie Tv') {
+      titolo = results[i].name;
+      originalTitle = results[i].original_name;
+    }
     var context = {
-      title: results[i].title,
-      originalTitle: results[i].original_title,
+      name: titolo,
+      originalName: originalTitle,
       language: flags(results[i].original_language),
       vote: stars(results[i].vote_average),
-      type: 'Film'
-    };
-    var html = template(context);
-    $('.film-ctr').append(html);
-  }
-}
-
-// Funzione per prendere i dati serie tv
-function printSerie(data){
-  var results = data.results;
-  // Handlebars
-  var source = $('#film-template').html();
-  var template = Handlebars.compile(source);
-  // ciclo for che stampa in base al numero dei risultati
-  for (var i = 0; i < results.length; i++) {
-    var context = {
-      name: results[i].name,
-      originalName: results[i].original_name,
-      language: flags(results[i].original_language),
-      vote: stars(results[i].vote_average),
-      type: 'Serie TV'
+      type: type
     };
     var html = template(context);
     $('.film-ctr').append(html);
@@ -114,6 +100,10 @@ function keyboard(){
   if (event.which == 13 || event.keyCode == 13) {
     ricercaFilm();
     ricercaSerie();
+    if ($('.film-ctr').is(':empty')){
+      $('.film-ctr').html('<h4>' + 'Nessun Risultato trovato' + '</h4>');
+      return;
+    }
     reset();
   }
 }
@@ -144,7 +134,7 @@ function flags(data){
 }
 
 // funzione reset
-function reset() {
+function reset(){
   $('.film-ctr').empty();
   $('#title').val('');
 }
