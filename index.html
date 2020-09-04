@@ -12,19 +12,33 @@
     <title>Boolflix</title>
   </head>
   <body>
-    <input id="title"type="text" placeholder="Inserisci il titolo di un film">
-    <button id="title-search" type="button" name="button">Ricerca</button>
-    <div class="film-ctr"></div>
-    <!-- Handlebars -->
-    <script id="film-template" type="text/x-handlebars-template">
-      <div class="film">
-        <h4>Titolo: {{title}} {{name}}</h4>
-        <h4>Titolo originale: {{originalName}}</h4>
-        <h4>Lingua: {{{language}}}</h4>
-        <h4>Voto: {{{vote}}}</h4>
-        <h4>{{type}}</h4>
-      </div>
-    </script>
+    <div class="container">
+      <!-- Navbar -->
+      <nav>
+        <img id="logo" src="https://fontmeme.com/permalink/200506/9cc48dd813e593f4f30d39a221d1dc17.png" alt="Logo">
+        <div class="search">
+          <input id="title"type="text" placeholder="Inserisci il titolo di un film">
+          <button id="title-search" type="button" name="button">Ricerca</button>
+        </div>
+      </nav>
+      <div class="movie-ctr"></div>
+
+      <!-- Handlebars -->
+      <script id="film-template" type="text/x-handlebars-template">
+        <div class="movie">
+
+          <img src="{{img}}" alt="Poster">
+          <div class="overlay">
+            <h4>Titolo: {{title}} {{name}}</h4>
+            <h4>Titolo originale: {{originalName}}</h4>
+            <h4>Lingua: {{{language}}}</h4>
+            <h4>Voto: {{{vote}}}</h4>
+            <h4>{{type}}</h4>
+            <p>{{overview}}</p>
+          </div>
+        </div>
+      </script>
+    </div>
 
     <script src="js/script.js" charset="utf-8"></script>
   </body>

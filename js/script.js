@@ -1,57 +1,40 @@
-// Milestone 2:
-// Trasformiamo il voto da 1 a 10 decimale in un numero intero da 1 a 5, così da permetterci di stampare a schermo un numero di stelle piene che vanno da 1 a 5, lasciando le restanti vuote (troviamo le icone in FontAwesome).
-// Arrotondiamo sempre per eccesso all’unità successiva, non gestiamo icone mezze piene (o mezze vuote :P)
-// Trasformiamo poi la stringa statica della lingua in una vera e propria bandiera della nazione corrispondente, gestendo il caso in cui non abbiamo la bandiera della nazione ritornata dall’API (le flag non ci sono in FontAwesome).
-// Allarghiamo poi la ricerca anche alle serie tv. Con la stessa azione di ricerca dovremo prendere sia i film che corrispondono alla query, sia le serie tv, stando attenti ad avere alla fine dei valori simili (le serie e i film hanno campi nel JSON di risposta diversi, simili ma non sempre identici)
-// Qui un esempio di chiamata per le serie tv:
-// https://api.themoviedb.org/3/search/tv?api_key=e99307154c6dfb0b4750f6603256716d&language=it_IT&query=scrubs
+// Milestone 3:
+// In questa milestone come prima cosa aggiungiamo la copertina del film o della serie
+// al nostro elenco. Ci viene passata dall’API solo la parte finale dell’URL, questo
+// perché poi potremo generare da quella porzione di URL tante dimensioni diverse.
+// Dovremo prendere quindi l’URL base delle immagini di TMDB:
+// https://image.tmdb.org/t/p/ per poi aggiungere la dimensione che vogliamo generare
+// (troviamo tutte le dimensioni possibili a questo link:
+// https://www.themoviedb.org/talk/53c11d4ec3a3684cf4006400) per poi aggiungere la
+// parte finale dell’URL passata dall’API.
+// Esempio di URL che torna la copertina di BORIS:
+// https://image.tmdb.org/t/p/w185/s2VDcsMh9ZhjFUxw77uCFDpTuXp.jpg
 
 $(document).ready(function(){
   // Funzione click tasto ricerca
   $('#title-search').click(function(){
-    ricercaFilm();
-    ricercaSerie();
-    if ($('.film-ctr').is(':empty')){
-      $('.film-ctr').html('<h4>' + 'Nessun Risultato trovato' + '</h4>');
-      return;
-    }
+    init();
     reset();
   });
   // Richiamo funzione tastiera
   $('#title').keydown(keyboard);
 });
 
-// Funzione con ajax e Handlebars per la ricerca di film e la compilazione dell'HTML
-function ricercaFilm(){
-  var query = $('#title').val();
-  // Ajax
-  $.ajax(
-    {
-      url: 'https://api.themoviedb.org/3/search/movie',
-      method: 'GET',
-      data: {
-        api_key: '72dc32a32f51c244d20fcafee0b12798',
-        query: query,
-        language: 'it-IT'
-      },
-      success: function(risposta){
-        print('Film', risposta);
-      },
-      // errore
-      error: function(){
-        alert('Errore');
-      }
-    }
-  )
+// funzione init
+function init(){
+  var url1 = 'https://api.themoviedb.org/3/search/movie'
+  var url2 = 'https://api.themoviedb.org/3/search/tv'
+  ricerca(url1, 'Film');
+  ricerca(url2, 'Tv');
 }
 
-// Funzione con ajax e Handlebars per la ricerca di serie tv e la compilazione dell'HTML
-function ricercaSerie(){
+// Funzione con ajax e Handlebars per la ricerca di film e la compilazione dell'HTML
+function ricerca(url, type){
   var query = $('#title').val();
   // Ajax
   $.ajax(
     {
-      url: 'https://api.themoviedb.org/3/search/tv',
+      url: url,
       method: 'GET',
       data: {
         api_key: '72dc32a32f51c244d20fcafee0b12798',
@@ -59,7 +42,7 @@ function ricercaSerie(){
         language: 'it-IT'
       },
       success: function(risposta){
-        print('Serie Tv', risposta);
+        print(risposta, type);
       },
       // errore
       error: function(){
@@ -70,7 +53,7 @@ function ricercaSerie(){
 }
 
 // funzione print per compilazione html
-function print(type, data){
+function print(data, type){
   var results = data.results;
   // Handlebars
   var source = $('#film-template').html();
@@ -79,31 +62,32 @@ function print(type, data){
     if (type == 'Film') {
       titolo = results[i].title;
       originalTitle = results[i].original_title;
-    } else if (type == 'Serie Tv') {
+      console.log(results[i].poster_path);
+    } else if (type == 'Tv') {
       titolo = results[i].name;
       originalTitle = results[i].original_name;
+      console.log(results[i].poster_path);
+    } else if (results[i].poster_path == null){
+      console.log('ciao');
     }
     var context = {
       name: titolo,
       originalName: originalTitle,
       language: flags(results[i].original_language),
       vote: stars(results[i].vote_average),
-      type: type
+      type: type,
+      img: img(results[i].poster_path),
+      overview: results[i].overview
     };
     var html = template(context);
-    $('.film-ctr').append(html);
+    $('.movie-ctr').append(html);
   }
 }
 
 // Funzione per tasto Invio sulla ricerca
 function keyboard(){
   if (event.which == 13 || event.keyCode == 13) {
-    ricercaFilm();
-    ricercaSerie();
-    if ($('.film-ctr').is(':empty')){
-      $('.film-ctr').html('<h4>' + 'Nessun Risultato trovato' + '</h4>');
-      return;
-    }
+    init();
     reset();
   }
 }
@@ -111,10 +95,14 @@ function keyboard(){
 // funzione stelle
 function stars(num){
   var num = Math.ceil(num / 2);
+  var resto = num % 2;
   var somma = '';
   for (var i = 0; i < 5; i++) {
     if (i < num){
       var star = '<i class="fas fa-star"></i>';
+    } else if (resto != 0){
+      var star = '<i class="fas fa-star-half-alt"></i>';
+      resto = 0;
     } else {
       var star = '<i class="far fa-star"></i>';
     }
@@ -131,6 +119,13 @@ function flags(data){
     return '<img class="flag" src="img/it.png" alt="flag ita">';
   }
   return data;
+}
+
+function img(data){
+  if (data != null) {
+    return 'https://image.tmdb.org/t/p/w342' + data;
+  }
+  return 'img/nd.jpg';
 }
 
 // funzione reset
