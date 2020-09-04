@@ -13,8 +13,9 @@
 $(document).ready(function(){
   // Funzione click tasto ricerca
   $('#title-search').click(function(){
-    init();
     reset();
+    init();
+
   });
   // Richiamo funzione tastiera
   $('#title').keydown(keyboard);
@@ -43,6 +44,7 @@ function ricerca(url, type){
       },
       success: function(risposta){
         print(risposta, type);
+        $('#title').val('');
       },
       // errore
       error: function(){
@@ -67,8 +69,6 @@ function print(data, type){
       titolo = results[i].name;
       originalTitle = results[i].original_name;
       console.log(results[i].poster_path);
-    } else if (results[i].poster_path == null){
-      console.log('ciao');
     }
     var context = {
       name: titolo,
@@ -87,8 +87,9 @@ function print(data, type){
 // Funzione per tasto Invio sulla ricerca
 function keyboard(){
   if (event.which == 13 || event.keyCode == 13) {
-    init();
     reset();
+    init();
+
   }
 }
 
@@ -130,6 +131,5 @@ function img(data){
 
 // funzione reset
 function reset(){
-  $('.film-ctr').empty();
-  $('#title').val('');
+  $('.movie-ctr').empty();
 }
