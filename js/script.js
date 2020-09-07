@@ -93,8 +93,6 @@ function print(data, type){
     $('.movie-ctr-tv').append(html);
     getDetails(tipo, id);
   }
-
-
 }
 
 // Funzione per tasto Invio sulla ricerca
@@ -160,8 +158,8 @@ function noResult(type){
   } else if (type == 'Tv'){
     $('.movie-ctr-tv').append(html);
   }
+}
 
-// Funzione details per attori e genere
 function getDetails(type, id){
   var url = 'https://api.themoviedb.org/3/' + type + '/' + id;
   $.ajax(
@@ -173,18 +171,15 @@ function getDetails(type, id){
       language: 'it-IT',
       append_to_response: 'credits',
       },
-
       success: function(data){
         var genere = data.genres;
         var actors = data.credits.cast;
-        console.log(actors);
         printDetails(id, genere, actors)
       }
     }
   )
 }
 
-// funzione stampa genere e attori
 function printDetails(filmid, genres, cast){
   var castList = '';
   var len = cast.length;
@@ -196,15 +191,18 @@ function printDetails(filmid, genres, cast){
   for (var i = 0; i < len; i++) {
     var actor = cast[i].name;
     castList += actor;
+
     if (i !== len - 1){
       castList += ', ';
     }
   }
 
   var generiList = '';
+
   for (var i = 0; i < genres.length; i++) {
     var genere = genres[i].name;
     generiList += genere;
+
     if (i !== genres.length - 1){
       generiList += ', ';
     }
@@ -212,7 +210,6 @@ function printDetails(filmid, genres, cast){
 
   var source = $("#details-template").html();
   var template = Handlebars.compile(source);
-
   var context = {
     actors: castList,
     genres: generiList
