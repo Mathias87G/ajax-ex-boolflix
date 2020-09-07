@@ -67,11 +67,15 @@ function print(data, type){
     if (type == 'Film') {
       titolo = results[i].title;
       originalTitle = results[i].original_title;
+      var tipo ='movie';
     } else if (type == 'Tv') {
       titolo = results[i].name;
       originalTitle = results[i].original_name;
-      console.log(results[i].poster_path);
+      var tipo = 'tv';
     }
+
+    var id = results[i].id;
+
     var context = {
       name: titolo,
       originalName: originalTitle,
@@ -79,14 +83,18 @@ function print(data, type){
       vote: stars(results[i].vote_average),
       type: type,
       img: img(results[i].poster_path),
-      overview: results[i].overview.substring(0, 300) + '...'
+      overview: results[i].overview.substring(0, 300) + '...',
+      id: id
     };
     var html = template(context);
     if (type == 'Film') {
       $('.movie-ctr-film').append(html);
     } else
     $('.movie-ctr-tv').append(html);
+    getDetails(tipo, id);
   }
+
+
 }
 
 // Funzione per tasto Invio sulla ricerca
@@ -152,4 +160,64 @@ function noResult(type){
   } else if (type == 'Tv'){
     $('.movie-ctr-tv').append(html);
   }
+
+// Funzione details per attori e genere
+function getDetails(type, id){
+  var url = 'https://api.themoviedb.org/3/' + type + '/' + id;
+  $.ajax(
+    {
+      url: url,
+      method: 'GET',
+      data: {
+      api_key: '72dc32a32f51c244d20fcafee0b12798',
+      language: 'it-IT',
+      append_to_response: 'credits',
+      },
+
+      success: function(data){
+        var genere = data.genres;
+        var actors = data.credits.cast;
+        console.log(actors);
+        printDetails(id, genere, actors)
+      }
+    }
+  )
+}
+
+// funzione stampa genere e attori
+function printDetails(filmid, genres, cast){
+  var castList = '';
+  var len = cast.length;
+
+  if (len > 5){
+    len = 5;
+  }
+
+  for (var i = 0; i < len; i++) {
+    var actor = cast[i].name;
+    castList += actor;
+    if (i !== len - 1){
+      castList += ', ';
+    }
+  }
+
+  var generiList = '';
+  for (var i = 0; i < genres.length; i++) {
+    var genere = genres[i].name;
+    generiList += genere;
+    if (i !== genres.length - 1){
+      generiList += ', ';
+    }
+  }
+
+  var source = $("#details-template").html();
+  var template = Handlebars.compile(source);
+
+  var context = {
+    actors: castList,
+    genres: generiList
+  };
+  var html = template(context);
+
+  $('.movie[data-id="' + filmid + '"]').find('.dettagli').append(html);
 }

@@ -29,15 +29,12 @@
         <div class="movie-ctr-tv">
         </div>
       </main>
-
-
-
     </div>
 
     <!-- Handlebars -->
     <script id="film-template" type="text/x-handlebars-template">
-      <div class="movie">
-        <img src="{{img}}" alt="Poster">
+      <div class="movie" data-id={{id}} data-genere={{genere}}>
+        <img src="{{img}}" alt="Poster di {{title}}">
         <div class="overlay">
           <h4>Titolo: {{title}} {{name}}</h4>
           <h4>Titolo originale: {{originalName}}</h4>
@@ -45,6 +42,7 @@
           <h4>Voto: {{{vote}}}</h4>
           <h4>{{type}}</h4>
           <p>{{overview}}</p>
+          <div class="dettagli"></div>
         </div>
       </div>
     </script>
@@ -52,6 +50,15 @@
     <script id="no-result-template" type="text/x-handlebars-template">
       <div class="no-result">{{noResult}}</div>
     </script>
+
+    <script id="details-template" type="text/x-handlebars-template">
+      <div class="actors">{{actors}}</div>
+      <div class="genre">{{genres}}</div>
+    </script>
+
+
+
+
 
     <script src="js/script.js" charset="utf-8"></script>
   </body>
