@@ -15,7 +15,6 @@ $(document).ready(function(){
   $('#title-search').click(function(){
     reset();
     init();
-
   });
   // Richiamo funzione tastiera
   $('#title').keydown(keyboard);
@@ -43,7 +42,11 @@ function ricerca(url, type){
         language: 'it-IT'
       },
       success: function(risposta){
-        print(risposta, type);
+        if (risposta.total_results > 0){
+          print(risposta, type);
+        } else {
+          noResult(type);
+        }
         $('#title').val('');
       },
       // errore
@@ -64,7 +67,6 @@ function print(data, type){
     if (type == 'Film') {
       titolo = results[i].title;
       originalTitle = results[i].original_title;
-      console.log(results[i].poster_path);
     } else if (type == 'Tv') {
       titolo = results[i].name;
       originalTitle = results[i].original_name;
@@ -77,10 +79,13 @@ function print(data, type){
       vote: stars(results[i].vote_average),
       type: type,
       img: img(results[i].poster_path),
-      overview: results[i].overview
+      overview: results[i].overview.substring(0, 300) + '...'
     };
     var html = template(context);
-    $('.movie-ctr').append(html);
+    if (type == 'Film') {
+      $('.movie-ctr-film').append(html);
+    } else
+    $('.movie-ctr-tv').append(html);
   }
 }
 
@@ -89,7 +94,6 @@ function keyboard(){
   if (event.which == 13 || event.keyCode == 13) {
     reset();
     init();
-
   }
 }
 
@@ -131,5 +135,21 @@ function img(data){
 
 // funzione reset
 function reset(){
-  $('.movie-ctr').empty();
+  $('.movie-ctr-film').empty();
+  $('.movie-ctr-tv').empty();
+}
+
+// Funzione no results
+function noResult(type){
+  var source = $("#no-result-template").html();
+  var template = Handlebars.compile(source);
+  var context = {
+    noResult: 'Non ci sono risultati nella sezione: ' + type
+  };
+  var html = template(context);
+  if (type == 'Film'){
+    $('.movie-ctr-film').append(html);
+  } else if (type == 'Tv'){
+    $('.movie-ctr-tv').append(html);
+  }
 }

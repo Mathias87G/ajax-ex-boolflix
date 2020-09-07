@@ -21,24 +21,37 @@
           <button id="title-search" type="button" name="button">Ricerca</button>
         </div>
       </nav>
-      <div class="movie-ctr"></div>
-
-      <!-- Handlebars -->
-      <script id="film-template" type="text/x-handlebars-template">
-        <div class="movie">
-
-          <img src="{{img}}" alt="Poster">
-          <div class="overlay">
-            <h4>Titolo: {{title}} {{name}}</h4>
-            <h4>Titolo originale: {{originalName}}</h4>
-            <h4>Lingua: {{{language}}}</h4>
-            <h4>Voto: {{{vote}}}</h4>
-            <h4>{{type}}</h4>
-            <p>{{overview}}</p>
-          </div>
+      <main>
+        <h2>Film</h2>
+        <div class="movie-ctr-film">
         </div>
-      </script>
+        <h2>Serie Tv</h2>
+        <div class="movie-ctr-tv">
+        </div>
+      </main>
+
+
+
     </div>
+
+    <!-- Handlebars -->
+    <script id="film-template" type="text/x-handlebars-template">
+      <div class="movie">
+        <img src="{{img}}" alt="Poster">
+        <div class="overlay">
+          <h4>Titolo: {{title}} {{name}}</h4>
+          <h4>Titolo originale: {{originalName}}</h4>
+          <h4>Lingua: {{{language}}}</h4>
+          <h4>Voto: {{{vote}}}</h4>
+          <h4>{{type}}</h4>
+          <p>{{overview}}</p>
+        </div>
+      </div>
+    </script>
+
+    <script id="no-result-template" type="text/x-handlebars-template">
+      <div class="no-result">{{noResult}}</div>
+    </script>
 
     <script src="js/script.js" charset="utf-8"></script>
   </body>

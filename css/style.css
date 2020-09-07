@@ -7,25 +7,38 @@
 .container {
   min-height: 100vh;
   width: 100%;
-  background-color: black;
 }
 
 nav {
   height: 70px;
+  width: 100%;
   background-color: blue;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 999;
 }
 
 #logo {
   height: 50px;
 }
 
-.movie-ctr {
+main {
+  background-color: black;
+  height: calc(100% - 70px);
+  min-height: calc(100vh);
+  margin-top: 70px;
+}
+
+.movie-ctr-film, .movie-ctr-tv {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+}
+
+main h2 {
+  color: white;
 }
 
 .movie {
@@ -53,4 +66,8 @@ nav {
 .flag {
   height: 10px;
   width: auto;
+}
+
+.no-result {
+  color: white;
 }
