@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js" integrity="sha512-zT3zHcFYbQwjHdKjCu6OMmETx8fJA9S7E6W7kBeFxultf75OPTYUJigEKX58qgyQMi1m1EgenfjMXlRZG8BXaw==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment-with-locales.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
     <link rel="stylesheet" href="css/style.css">
@@ -17,7 +18,7 @@
       <nav>
         <img id="logo" src="https://fontmeme.com/permalink/200506/9cc48dd813e593f4f30d39a221d1dc17.png" alt="Logo">
         <div class="search">
-          <input id="title"type="text" placeholder="Inserisci il titolo di un film">
+          <input id="title" type="text" placeholder="Inserisci il titolo di un film">
           <button id="title-search" type="button" name="button">Ricerca</button>
         </div>
       </nav>
@@ -36,13 +37,29 @@
       <div class="movie" data-id={{id}} data-genere={{genere}}>
         <img src="{{img}}" alt="Poster di {{title}}">
         <div class="overlay">
-          <h4>Titolo: {{title}} {{name}}</h4>
-          <h4>Titolo originale: {{originalName}}</h4>
-          <h4>Lingua: {{{language}}}</h4>
-          <h4>Voto: {{{vote}}}</h4>
-          <h4>{{type}}</h4>
-          <p>{{overview}}</p>
-          <div class="dettagli"></div>
+          <div class="titolo">
+            <div class="titolo-txt">
+              Titolo: <span>{{title}} {{name}}</span>
+            </div>
+          </div>
+          <div class="original">
+            <div class="original-txt">
+              Titolo originale: <span>{{originalName}}</span>
+            </div>
+          </div>
+          <div class="language">
+            <div class="language-txt">
+              Lingua: <span>{{{language}}}</span>
+            </div>
+          </div>
+          <div class="vote">
+            <div class="vote-txt">
+              Voto: <span>{{{vote}}}</span>
+            </div>
+          </div>
+          <div class="details"></div>
+          <h4 class="type">{{type}}</h4>
+          <p class="trama">Trama: {{overview}}</p>
         </div>
       </div>
     </script>
@@ -52,8 +69,8 @@
     </script>
 
     <script id="details-template" type="text/x-handlebars-template">
-      <div class="actors">{{actors}}</div>
-      <div class="genre">{{genres}}</div>
+      <div class="actors">Cast: <span>{{actors}}</span></div>
+      <div class="genre">Genere: <span>{{genres}}</span></div>
     </script>
 
     <script src="js/script.js" charset="utf-8"></script>

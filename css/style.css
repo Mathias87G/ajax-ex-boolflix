@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .container {
@@ -12,17 +13,39 @@
 nav {
   height: 70px;
   width: 100%;
-  background-color: blue;
+  background: rgb(0,0,0);
+  background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(121,9,9,1) 51%, rgba(0,0,0,1) 100%);
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: fixed;
   top: 0;
   z-index: 999;
+  padding: 0 10px;
 }
 
 #logo {
   height: 50px;
+}
+
+#title {
+  width: 200px;
+  line-height: 30px;
+  border: none;
+  outline: none;
+  padding-left: 10px;
+  border-radius: 5px;
+}
+
+#title-search {
+  padding: 7px 10px;
+  background-color: rgb(154, 102, 93);
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  margin-left: 20px;
 }
 
 main {
@@ -37,8 +60,23 @@ main {
   flex-wrap: wrap;
 }
 
+.titolo-txt, .language-txt, .original-txt, .language-txt, .vote-txt, .details {
+  color: red;
+  padding-left: 5px;
+  padding-bottom: 5px;
+}
+
+.type {
+  padding-left: 5px;
+}
+
+.overlay span {
+  color: black;
+}
+
 main h2 {
   color: white;
+  margin: 12px;
 }
 
 .movie {
@@ -46,6 +84,7 @@ main h2 {
   height: 513px;
   width: 342px;
   margin-top: 10px;
+  margin-left: 10px;
 }
 
 .movie .overlay {
@@ -56,11 +95,18 @@ main h2 {
   left: 0;
   right: 0;
   bottom: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .movie .overlay:hover {
   background-color: white;
-  opacity: 1;
+  opacity: 0.9;
+  cursor: pointer
+}
+
+.titolo {
+  padding-top: 10px;
 }
 
 .flag {
@@ -68,6 +114,16 @@ main h2 {
   width: auto;
 }
 
+.type {
+  padding-top: 20px;
+}
+
+.trama {
+  padding-top: 50px;
+  padding-left: 5px;
+}
+
 .no-result {
   color: white;
+  padding-left: 10px;
 }

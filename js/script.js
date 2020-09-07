@@ -84,15 +84,18 @@ function print(data, type){
       type: type,
       img: img(results[i].poster_path),
       overview: results[i].overview.substring(0, 300) + '...',
-      id: id
+      id: id,
+      film: 'Film',
+      tv: 'Serie Tv'
     };
     var html = template(context);
     if (type == 'Film') {
       $('.movie-ctr-film').append(html);
     } else
-    $('.movie-ctr-tv').append(html);
-    getDetails(tipo, id);
+      $('.movie-ctr-tv').append(html);
+      getDetails(tipo, id);
   }
+
 }
 
 // Funzione per tasto Invio sulla ricerca
@@ -216,5 +219,5 @@ function printDetails(filmid, genres, cast){
   };
   var html = template(context);
 
-  $('.movie[data-id="' + filmid + '"]').find('.dettagli').append(html);
+  $('.movie[data-id="' + filmid + '"]').find('.details').append(html);
 }
