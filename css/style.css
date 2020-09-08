@@ -28,8 +28,18 @@ nav {
   height: 50px;
 }
 
+#movie-filter, #tv-filter {
+  width: 200px;
+  height: 30px;
+  border: none;
+  outline: none;
+  padding-left: 10px;
+  border-radius: 5px;
+}
+
 #title {
   width: 200px;
+  height: 30px;
   line-height: 30px;
   border: none;
   outline: none;

@@ -17,11 +17,20 @@
       <!-- Navbar -->
       <nav>
         <img id="logo" src="https://fontmeme.com/permalink/200506/9cc48dd813e593f4f30d39a221d1dc17.png" alt="Logo">
+        <div class="filter">
+          <select id="movie-filter" name="movie-filter">
+            <option value="All">All</option>
+          </select>
+          <select id="tv-filter" name="movie-filter">
+            <option value="All">All</option>
+          </select>
+        </div>
         <div class="search">
           <input id="title" type="text" placeholder="Inserisci il titolo di un film">
           <button id="title-search" type="button" name="button">Ricerca</button>
         </div>
       </nav>
+      <!-- Main -->
       <main>
         <h2>Film</h2>
         <div class="movie-ctr-film">
@@ -70,7 +79,7 @@
 
     <script id="details-template" type="text/x-handlebars-template">
       <div class="actors">Cast: <span>{{actors}}</span></div>
-      <div class="genre">Genere: <span>{{genres}}</span></div>
+      <div class="genre">Genere: <span class="{{genres}}">{{genres}}</span></div>
     </script>
 
     <script src="js/script.js" charset="utf-8"></script>
