@@ -208,10 +208,11 @@ function printDetails(filmid, genres, cast){
 
   for (var i = 0; i < genres.length; i++) {
     var genere = genres[i].name;
-    generiList += genere;
-    if (i !== genres.length - 1){
-      generiList += ', ';
-    }
+    generiList += genere + ' ';
+
+    // if (i !== genres.length - 1){
+    //   generiList += ', ';
+    // }
   }
 
   var source = $("#details-template").html();
@@ -278,7 +279,10 @@ function tvGenres(){
 // FILTRO GENERI
 $('#movie-filter').change(function() {
     var genere = $(this).val();
-    console.log(genere);
-    var generi = $('.generi');
-    console.log(generi);
+    if (genere != 'All') {
+      $('.movie').find(genere).show();
+      console.log($('.movie').find(genere).show());
+    } else {
+      $('.movie').hide();
+    }
 });
